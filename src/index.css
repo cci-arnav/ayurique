@@ -913,7 +913,6 @@ select:focus-visible {
 .filter-row {
   display: flex;
   gap: 20px;
-  overflow-x: auto;
   border-bottom: 1px solid var(--line);
   padding-bottom: 12px;
   white-space: nowrap;
