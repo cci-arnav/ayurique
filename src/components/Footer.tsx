@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Instagram, Mail, Phone, ChevronDown, MessageCircle, MapPin } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/config';
 import type { TranslationDict } from '@/data/i18n';
+import type { Category } from '@/data/products';
 
 type FooterProps = {
   t: TranslationDict;
   onNavigate: (id: string) => void;
-  onCategorySelect: (category: 'Perfume' | 'Room Freshener' | 'Soap') => void;
+  onCategorySelect: (category: Category) => void;
 };
 
 type Column = { title: string; links: { label: string; action: () => void }[] };
@@ -18,9 +19,9 @@ export function Footer({ t, onNavigate, onCategorySelect }: FooterProps) {
     {
       title: t.footer.shop,
       links: [
-        { label: t.footer.perfumes, action: () => { onCategorySelect('Perfume'); onNavigate('shop'); } },
-        { label: t.footer.roomFresheners, action: () => { onCategorySelect('Room Freshener'); onNavigate('shop'); } },
-        { label: t.footer.soaps, action: () => { onCategorySelect('Soap'); onNavigate('shop'); } },
+        { label: t.footer.perfumes, action: () => { onCategorySelect('Air Freshener'); onNavigate('shop'); } },
+        { label: t.footer.roomFresheners, action: () => { onCategorySelect('Soap'); onNavigate('shop'); } },
+        { label: t.footer.soaps, action: () => { onCategorySelect('Attar'); onNavigate('shop'); } },
         { label: t.footer.allProducts, action: () => { onNavigate('shop'); } },
       ],
     },
@@ -38,10 +39,10 @@ export function Footer({ t, onNavigate, onCategorySelect }: FooterProps) {
       links: [
         { label: t.footer.cart, action: () => window.dispatchEvent(new CustomEvent('ayurique-open-cart')) },
         { label: t.footer.offers, action: () => onNavigate('shop') },
-        { label: t.footer.shipping, action: () => onNavigate('footer') },
-        { label: t.footer.returns, action: () => onNavigate('footer') },
-        { label: t.footer.privacyPolicy, action: () => onNavigate('footer') },
-        { label: t.footer.terms, action: () => onNavigate('footer') },
+        { label: t.footer.shipping, action: () => SITE_CONFIG.footerLinks.shipping ? window.open(SITE_CONFIG.footerLinks.shipping) : null },
+        { label: t.footer.returns, action: () => SITE_CONFIG.footerLinks.returns ? window.open(SITE_CONFIG.footerLinks.returns) : null },
+        { label: t.footer.privacyPolicy, action: () => SITE_CONFIG.footerLinks.privacyPolicy ? window.open(SITE_CONFIG.footerLinks.privacyPolicy) : null },
+        { label: t.footer.terms, action: () => SITE_CONFIG.footerLinks.terms ? window.open(SITE_CONFIG.footerLinks.terms) : null },
       ],
     },
   ];

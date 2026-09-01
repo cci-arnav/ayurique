@@ -98,9 +98,12 @@ export interface TranslationDict {
     titlePart1: string;
     titlePart2: string;
     all: string;
+    airFresheners: string;
     perfumes: string;
     roomFresheners: string;
     soaps: string;
+    attars: string;
+    comboOffers: string;
     empty: string;
     addToBag: string;
     quickView: string;
@@ -315,7 +318,7 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       titlePart1: 'Find your everyday',
       titlePart2: 'essential.',
       viewAll: 'View all products',
-      perfumesTitle: 'Perfumes',
+      perfumesTitle: 'Air Fresheners',
       perfumesText: 'Signature fragrances for every mood.',
       roomFreshenersTitle: 'Room fresheners',
       roomFreshenersText: 'Transform the atmosphere around you.',
@@ -328,9 +331,12 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       titlePart1: 'Small rituals,',
       titlePart2: 'beautifully made.',
       all: 'All',
+      airFresheners: 'Air fresheners',
       perfumes: 'Perfumes',
       roomFresheners: 'Room fresheners',
       soaps: 'Soaps',
+      attars: 'Attars',
+      comboOffers: 'Combos',
       empty: 'No rituals match your selection yet.',
       addToBag: 'Add to bag',
       quickView: 'Quick view',

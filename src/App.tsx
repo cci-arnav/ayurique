@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Sparkles, Instagram, Check } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { ArrowRight, Sparkles, Instagram, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import { SearchBar } from '@/components/SearchBar';
@@ -37,6 +37,15 @@ function App() {
   const [toast, setToast] = useState<string | null>(null);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterMessage, setNewsletterMessage] = useState('');
+  const [heroSlideIndex, setHeroSlideIndex] = useState(0);
+  const heroAutoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Hero carousel images
+  const heroImages = [
+    productImages.hero,
+    productImages.ritualStepImages[1],
+    productImages.ritualStepImages[2],
+  ];
 
   const t = useMemo(() => getTranslations(language), [language]);
 
@@ -93,6 +102,41 @@ function App() {
     return () => window.removeEventListener('ayurique-open-cart', openCart);
   }, []);
 
+  // Hero carousel auto-play
+  useEffect(() => {
+    const startAutoPlay = () => {
+      heroAutoPlayRef.current = setInterval(() => {
+        setHeroSlideIndex((prev) => (prev + 1) % heroImages.length);
+      }, 4000);
+    };
+
+    startAutoPlay();
+    return () => {
+      if (heroAutoPlayRef.current) {
+        clearInterval(heroAutoPlayRef.current);
+      }
+    };
+  }, [heroImages.length]);
+
+  const goToHeroSlide = useCallback((index: number) => {
+    setHeroSlideIndex(index % heroImages.length);
+    // Reset auto-play
+    if (heroAutoPlayRef.current) {
+      clearInterval(heroAutoPlayRef.current);
+    }
+    heroAutoPlayRef.current = setInterval(() => {
+      setHeroSlideIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+  }, [heroImages.length]);
+
+  const prevHeroSlide = useCallback(() => {
+    goToHeroSlide(heroSlideIndex - 1);
+  }, [heroSlideIndex, goToHeroSlide]);
+
+  const nextHeroSlide = useCallback(() => {
+    goToHeroSlide(heroSlideIndex + 1);
+  }, [heroSlideIndex, goToHeroSlide]);
+
   const showToast = useCallback((msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(null), 2400);
@@ -108,7 +152,7 @@ function App() {
 
   const cartCount = cart.reduce((t, i) => t + i.quantity, 0);
   const wishlistCount = wishlist.length;
-  const subtotal = cart.reduce((t, i) => t + i.price * i.quantity, 0);
+  const subtotal = cart.reduce((t, i) => t + (i.price || 0) * i.quantity, 0);
   const coupon = appliedCoupon ? coupons[appliedCoupon] : undefined;
   const discount = coupon ? Math.round((subtotal * coupon.value) / 100) : 0;
   const total = subtotal - discount;
@@ -219,8 +263,29 @@ function App() {
             </div>
             <div className="hero-visual reveal is-visible">
               <div className="hero-frame">
-                <img src={productImages.hero} alt="Elegant perfume bottle in a warm botanical setting" />
-                <div className="hero-frame-caption"><span>01 / 03</span><span>{t.hero.frameCaption}</span></div>
+                <img src={heroImages[heroSlideIndex]} alt="Ayurique product showcase" />
+                <div className="hero-frame-caption">
+                  <span>{String(heroSlideIndex + 1).padStart(2, '0')} / {String(heroImages.length).padStart(2, '0')}</span>
+                  <span>{t.hero.frameCaption}</span>
+                </div>
+                <div className="hero-carousel-controls">
+                  <button className="hero-carousel-btn" onClick={prevHeroSlide} aria-label="Previous slide">
+                    <ChevronLeft size={18} />
+                  </button>
+                  <div className="hero-carousel-dots">
+                    {heroImages.map((_, idx) => (
+                      <button
+                        key={idx}
+                        className={`hero-dot ${idx === heroSlideIndex ? 'is-active' : ''}`}
+                        onClick={() => goToHeroSlide(idx)}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <button className="hero-carousel-btn" onClick={nextHeroSlide} aria-label="Next slide">
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
               </div>
               <div className="hero-stamp"><Sparkles size={16} /><span>{t.hero.stampTitle}<br />{t.hero.stampSub}</span></div>
             </div>
@@ -263,22 +328,22 @@ function App() {
                 title={t.categories.perfumesTitle}
                 text={t.categories.perfumesText}
                 exploreLabel={t.categories.explore}
-                image={productImages.perfume}
-                onClick={() => { setActiveCategory('Perfume'); scrollTo('shop'); }}
-              />
-              <CategoryCard
-                title={t.categories.roomFreshenersTitle}
-                text={t.categories.roomFreshenersText}
-                exploreLabel={t.categories.explore}
-                image={productImages.room}
-                onClick={() => { setActiveCategory('Room Freshener'); scrollTo('shop'); }}
+                image={productImages.ritualStepImages[0]}
+                onClick={() => { setActiveCategory('Air Freshener'); scrollTo('shop'); }}
               />
               <CategoryCard
                 title={t.categories.soapsTitle}
                 text={t.categories.soapsText}
                 exploreLabel={t.categories.explore}
-                image={productImages.soap}
+                image={productImages.ritualStepImages[1]}
                 onClick={() => { setActiveCategory('Soap'); scrollTo('shop'); }}
+              />
+              <CategoryCard
+                title="Attars"
+                text="Precious fragrances, carefully crafted."
+                exploreLabel={t.categories.explore}
+                image={productImages.ritualStepImages[2]}
+                onClick={() => { setActiveCategory('Attar'); scrollTo('shop'); }}
               />
             </div>
           </div>
@@ -292,15 +357,17 @@ function App() {
               <h2 className="section-title mt-4">{t.collection.titlePart1} <em>{t.collection.titlePart2}</em></h2>
             </div>
             <div className="filter-row">
-              {(['All', 'Perfume', 'Room Freshener', 'Soap'] as FilterCategory[]).map((cat) => {
+              {(['All', 'Air Freshener', 'Soap', 'Attar', 'Combo Offer'] as FilterCategory[]).map((cat) => {
                 const label =
                   cat === 'All'
                     ? t.collection.all
-                    : cat === 'Perfume'
-                    ? t.collection.perfumes
-                    : cat === 'Room Freshener'
-                    ? t.collection.roomFresheners
-                    : t.collection.soaps;
+                    : cat === 'Air Freshener'
+                    ? t.collection.airFresheners
+                    : cat === 'Soap'
+                    ? t.collection.soaps
+                    : cat === 'Attar'
+                    ? t.collection.attars
+                    : t.collection.comboOffers;
                 return (
                   <button
                     key={cat}
@@ -372,18 +439,36 @@ function App() {
               title={t.ritual.clearAir}
               text={t.ritual.morningDesc}
               product={t.ritual.withSacredBasil}
+              image={productImages.ritualStepImages[0]}
+              productId="aqua-bliss"
+              onProductClick={(id) => {
+                const prod = products.find((p) => p.id === id);
+                if (prod) openQuickView(prod);
+              }}
             />
             <RitualStep
               time={t.ritual.afternoon}
               title={t.ritual.wearMood}
               text={t.ritual.afternoonDesc}
               product={t.ritual.withSandalwood}
+              image={productImages.ritualStepImages[1]}
+              productId="rose-soap"
+              onProductClick={(id) => {
+                const prod = products.find((p) => p.id === id);
+                if (prod) openQuickView(prod);
+              }}
             />
             <RitualStep
               time={t.ritual.evening}
               title={t.ritual.comeBack}
               text={t.ritual.eveningDesc}
               product={t.ritual.withRoseClay}
+              image={productImages.ritualStepImages[2]}
+              productId="white-oud-attar"
+              onProductClick={(id) => {
+                const prod = products.find((p) => p.id === id);
+                if (prod) openQuickView(prod);
+              }}
             />
           </div>
         </section>
@@ -391,13 +476,13 @@ function App() {
         {/* JOURNAL */}
         <section id="journal" className="journal-section">
           <div className="shell journal-grid">
-            <div className="reveal is-visible">
+            <div className="journal-feature reveal is-visible">
               <p className="eyebrow text-gold">{t.journal.eyebrow}</p>
               <h2 className="section-title mt-4">{t.journal.titlePart1} <em>{t.journal.titlePart2}</em></h2>
               <p className="section-body max-w-lg">{t.journal.body}</p>
               <button className="button button-outline mt-8">{t.journal.exploreJournal} <ArrowRight size={15} /></button>
             </div>
-            <div className="journal-card reveal is-visible">
+            <div className="journal-card journal-card--light reveal is-visible">
               <div className="journal-card-head"><span>{t.journal.fieldNote}</span><span>01—06</span></div>
               <h3 className="journal-card-title">{t.journal.noteTitle}</h3>
               <p className="journal-card-text">{t.journal.noteText}</p>
@@ -550,9 +635,24 @@ function CategoryCard({
   );
 }
 
-function RitualStep({ time, title, text, product }: { time: string; title: string; text: string; product: string }) {
+function RitualStep({ time, title, text, product, image, productId, onProductClick }: { time: string; title: string; text: string; product: string; image?: string; productId?: string; onProductClick?: (productId: string) => void }) {
+  const handleClick = () => {
+    if (productId && onProductClick) {
+      onProductClick(productId);
+    }
+  };
+
   return (
-    <div className="ritual-step reveal is-visible">
+    <button
+      className="ritual-step reveal is-visible"
+      onClick={handleClick}
+      style={{ cursor: productId ? 'pointer' : 'default' }}
+    >
+      {image && (
+        <div className="ritual-step-image">
+          <img src={image} alt={title} loading="lazy" />
+        </div>
+      )}
       <div className="ritual-step-head">
         <span className="eyebrow text-gold">{time}</span>
         <Sparkles size={22} className="text-gold/60" />
@@ -560,7 +660,7 @@ function RitualStep({ time, title, text, product }: { time: string; title: strin
       <h3 className="ritual-step-title">{title}</h3>
       <p className="ritual-step-text">{text}</p>
       <span className="ritual-step-product">{product}</span>
-    </div>
+    </button>
   );
 }
 

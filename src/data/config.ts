@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   brand: 'AYURIQUE',
   tagline: 'Ancient Knowledge, Modern Science',
   instagramUrl: 'https://www.instagram.com/the.ayurique/',
-  whatsappUrl: 'https://wa.me/910000000000',
+  whatsappUrl: 'https://wa.me/9650560277',
   orderFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScaJ_j9MxQU0IqMBp-6vPzz_dLyjR8HJRKopVs3G-o48XYggA/viewform',
   orderFormEntryIds: {
     name: 'entry.2005620554',
@@ -24,7 +24,19 @@ export const SITE_CONFIG = {
   contact: {
     email: 'globalexpressgroup@gmail.com',
     phone: '+91 96505 60277',
-    address: 'Global Express Group, New Delhi, 110001, India',
+    address: '13, Institutional Area, Lodhi Road, New Delhi 110 003',
+  },
+  // TODO: Configure the actual newsletter email destination
+  newsletter: {
+    // Replace with actual destination: mailto address, API endpoint, or form URL
+    destination: '', // Placeholder - to be configured with actual email/endpoint
+  },
+  // TODO: Configure footer link destinations
+  footerLinks: {
+    shipping: '', // Placeholder - e.g., '/shipping' or external URL
+    returns: '', // Placeholder - e.g., '/returns' or external URL
+    privacyPolicy: '', // Placeholder - e.g., '/privacy' or external URL
+    terms: '', // Placeholder - e.g., '/terms' or external URL
   },
   freeShippingThreshold: 999,
 } as const;
