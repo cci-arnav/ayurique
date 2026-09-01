@@ -576,6 +576,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'छूट',
       saveWishlist: 'पसंदीदा में जोड़ें',
       removeWishlist: 'पसंदीदा से हटाएं',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'आयुर्वेद और विज्ञान',
@@ -809,6 +812,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'descuento',
       saveWishlist: 'Guardar en favoritos',
       removeWishlist: 'Eliminar de favoritos',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda y ciencia',
@@ -1042,6 +1048,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'Rabatt',
       saveWishlist: 'Auf die Wunschliste',
       removeWishlist: 'Von der Wunschliste entfernen',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda & Wissenschaft',
@@ -1275,6 +1284,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'de réduction',
       saveWishlist: 'Ajouter aux favoris',
       removeWishlist: 'Retirer des favoris',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda & science',
@@ -1508,6 +1520,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'di sconto',
       saveWishlist: 'Salva nei preferiti',
       removeWishlist: 'Rimuovi dai preferiti',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda e scienza',
@@ -1741,6 +1756,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'de desconto',
       saveWishlist: 'Salvar nos favoritos',
       removeWishlist: 'Remover dos favoritos',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda & ciência',
@@ -1974,6 +1992,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'OFF',
       saveWishlist: 'お気に入りに追加',
       removeWishlist: 'お気に入りから削除',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'アーユルヴェーダと科学',
@@ -2207,6 +2228,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: '할인',
       saveWishlist: '위시리스트 추가',
       removeWishlist: '위시리스트 삭제',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: '아유르베다 & 과학',
@@ -2440,6 +2464,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: '折',
       saveWishlist: '保存至心愿单',
       removeWishlist: '从心愿单移除',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: '阿育吠陀与科学',
@@ -2673,6 +2700,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'خصم',
       saveWishlist: 'حفظ في المفضلة',
       removeWishlist: 'إزالة من المفضلة',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'الأيورفيدا والعلم',
@@ -2906,6 +2936,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'скидка',
       saveWishlist: 'В избранное',
       removeWishlist: 'Удалить из избранного',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Аюрведа и наука',
@@ -3139,6 +3172,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'korting',
       saveWishlist: 'Bewaren op verlanglijst',
       removeWishlist: 'Van verlanglijst verwijderen',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda & wetenschap',
@@ -3372,6 +3408,9 @@ export const translations: Record<LanguageCode, TranslationDict> = {
       off: 'indirim',
       saveWishlist: 'Favorilere Ekle',
       removeWishlist: 'Favorilerden Çıkar',
+      airFresheners: "",
+      attars: "",
+      comboOffers: ""
     },
     philosophy: {
       eyebrow: 'Ayurveda & Bilim',
