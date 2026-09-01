@@ -1432,7 +1432,7 @@ select:focus-visible {
 
 /* ===== Journal ===== */
 .journal-section {
-  background: url(./public/assets/Journal-bg.png) center/cover no-repeat;
+  background: url('/assets/Journal-bg.png') center/cover no-repeat;
   padding: 96px 0;
 }
 .journal-grid {
