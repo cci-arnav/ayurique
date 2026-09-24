@@ -14,7 +14,7 @@ import { products, productImages, type Product, type Category } from '@/data/pro
 import { SITE_CONFIG, promotion, coupons } from '@/data/config';
 import { getTranslations, SUPPORTED_LANGUAGES, type LanguageCode } from '@/data/i18n';
 import {
-  getCart, saveCart, clearCart, getCoupon, saveCoupon, clearCoupon,
+  getCart, saveCart, getCoupon, saveCoupon, clearCoupon,
   getWishlist, saveWishlist, addRecentlyViewed,
   getTheme, saveTheme, getSavedLanguage, saveLanguage,
   type CartItem, type Theme,
@@ -72,6 +72,18 @@ function App() {
   useEffect(() => {
     saveWishlist(wishlist);
   }, [wishlist]);
+
+  // Keep the page behind drawers and modals stationary while they are open.
+  useEffect(() => {
+    const hasBlockingOverlay = isCartOpen || isWishlistOpen || isSearchOpen || Boolean(quickView) || checkoutOpen;
+    if (!hasBlockingOverlay) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isCartOpen, isWishlistOpen, isSearchOpen, quickView, checkoutOpen]);
 
   useEffect(() => {
     if (appliedCoupon) {
@@ -319,7 +331,7 @@ function App() {
                 <p className="eyebrow text-gold">{t.categories.eyebrow}</p>
                 <h2 className="section-title mt-4">{t.categories.titlePart1} <em>{t.categories.titlePart2}</em></h2>
               </div>
-              <button className="link-button hidden md:flex" onClick={() => { setActiveCategory('All'); scrollTo('shop'); }}>
+              <button className="link-button category-view-all" onClick={() => { setActiveCategory('All'); scrollTo('shop'); }}>
                 {t.categories.viewAll} <ArrowRight size={16} />
               </button>
             </div>
@@ -594,7 +606,6 @@ function App() {
         couponCode={appliedCoupon}
         t={t}
         onClose={() => setCheckoutOpen(false)}
-        onClearCart={clearCart}
       />
       <Chatbot t={t} onProductClick={(p) => openQuickView(p)} />
 

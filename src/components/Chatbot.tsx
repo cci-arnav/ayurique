@@ -37,6 +37,15 @@ export function Chatbot({ t, onProductClick }: ChatbotProps) {
     if (open) setTimeout(() => scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' }), 100);
   }, [open, messages, typing]);
 
+  useEffect(() => {
+    if (!open || !window.matchMedia('(max-width: 767px)').matches) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
   const send = (raw: string) => {
     const text = raw.trim();
     if (!text) return;

@@ -92,7 +92,7 @@ html {
 }
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   background: linear-gradient(180deg, var(--ivory) 0%, #f3ece0 100%);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -215,6 +215,9 @@ select:focus-visible {
 }
 .announcement-msg {
   position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   opacity: 0;
   transform: translateY(8px);
@@ -319,6 +322,7 @@ select:focus-visible {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 .icon-button {
   display: inline-flex;
@@ -360,7 +364,7 @@ select:focus-visible {
 [data-theme="dark"] .wishlist-count {
   color: var(--forest-deep);
 }
-.nav-shop-btn {
+.nav-actions .nav-shop-btn {
   display: none;
 }
 .nav-menu-btn {
@@ -901,6 +905,9 @@ select:focus-visible {
   text-transform: uppercase;
   white-space: nowrap;
 }
+.category-section .category-view-all {
+  display: none;
+}
 .category-section .link-button:hover {
   color: var(--gold-soft);
 }
@@ -1013,6 +1020,7 @@ select:focus-visible {
   border-bottom: 1px solid var(--line);
   padding-bottom: 12px;
   white-space: nowrap;
+  min-width: 0;
 }
 .filter-button {
   position: relative;
@@ -1814,7 +1822,7 @@ select:focus-visible {
 .search-modal {
   width: min(640px, calc(100% - 32px));
   background: var(--ivory);
-  max-height: 80vh;
+  max-height: min(80vh, calc(100dvh - 32px));
   overflow-y: auto;
   animation: modalIn 0.3s ease;
 }
@@ -1986,6 +1994,7 @@ select:focus-visible {
   padding: 24px;
   animation: slideIn 0.35s ease;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 [data-theme="dark"] .cart-drawer {
   background: var(--sand);
@@ -2115,6 +2124,9 @@ select:focus-visible {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+}
+.coupon-row .input-field {
+  min-width: 0;
 }
 .coupon-apply-btn {
   padding: 11px 16px;
@@ -2256,7 +2268,7 @@ select:focus-visible {
 .quick-view {
   position: relative;
   width: min(900px, 100%);
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   overflow-y: auto;
   background: var(--ivory);
   animation: modalIn 0.3s ease;
@@ -2411,7 +2423,7 @@ select:focus-visible {
 .checkout-modal {
   position: relative;
   width: min(960px, 100%);
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   overflow-y: auto;
   background: var(--sand);
   animation: modalIn 0.3s ease;
@@ -2469,7 +2481,7 @@ select:focus-visible {
 .checkout-body {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  max-height: calc(100vh - 140px);
+  max-height: calc(100dvh - 140px);
   overflow-y: auto;
 }
 .checkout-form {
@@ -2575,7 +2587,7 @@ select:focus-visible {
 /* ===== Chatbot ===== */
 .chat-fab {
   position: fixed;
-  bottom: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
   right: 24px;
   z-index: 55;
   display: flex;
@@ -2604,13 +2616,13 @@ select:focus-visible {
 }
 .chat-panel {
   position: fixed;
-  bottom: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
   right: 24px;
   z-index: 65;
   width: 380px;
   max-width: calc(100vw - 32px);
   height: 560px;
-  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px - env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   background: var(--sand);
@@ -2974,19 +2986,32 @@ select:focus-visible {
 
 /* ===== Responsive: tablet ===== */
 @media (min-width: 768px) {
+  .category-section .category-view-all {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shop-head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+/* Keep the compact navigation until every desktop control fits comfortably. */
+@media (min-width: 1180px) {
   .nav-links {
     display: flex;
   }
-  .nav-shop-btn {
+  .nav-actions .nav-shop-btn {
     display: inline-flex;
   }
   .nav-menu-btn {
     display: none;
   }
-  .shop-head {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
+  .footer-col-links {
+    display: flex !important;
   }
 }
 
@@ -2997,18 +3022,19 @@ select:focus-visible {
     gap: 56px;
     padding: 56px 0 80px;
   }
-  .footer-col-links {
-    display: flex !important;
-  }
 }
 
-/* ===== Responsive: mobile ===== */
-@media (max-width: 1023px) {
+/* ===== Responsive: compact desktop/tablet ===== */
+@media (max-width: 1179px) {
+  .nav-links,
+  .nav-actions .nav-shop-btn {
+    display: none;
+  }
+  .nav-menu-btn {
+    display: inline-flex;
+  }
   .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .category-card {
-    height: 400px;
   }
   .footer-top {
     grid-template-columns: 1fr 1fr;
@@ -3034,6 +3060,16 @@ select:focus-visible {
   }
 }
 
+/* ===== Responsive: tablet ===== */
+@media (max-width: 1023px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .category-card {
+    height: 400px;
+  }
+}
+
 @media (max-width: 767px) {
   .shell {
     width: min(100% - 32px, 600px);
@@ -3048,6 +3084,25 @@ select:focus-visible {
   .brand-mark {
     width: 42px;
     height: 42px;
+  }
+  .nav-row {
+    height: 68px;
+  }
+  .brand-lockup {
+    gap: 8px;
+    min-width: 0;
+  }
+  .nav-theme-btn,
+  .nav-wishlist-desktop {
+    display: none;
+  }
+  .nav-actions {
+    gap: 2px;
+  }
+  .nav-actions .icon-button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
   }
   .hero-grid {
     gap: 32px;
@@ -3103,6 +3158,10 @@ select:focus-visible {
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px 12px;
+  }
+  .filter-row {
+    flex-wrap: wrap;
+    gap: 12px 18px;
   }
   .product-name {
     font-size: 1.125rem;
@@ -3168,7 +3227,7 @@ select:focus-visible {
   }
   .cart-drawer {
     width: 100%;
-    padding: 20px;
+    padding: 20px 20px max(20px, env(safe-area-inset-bottom));
   }
   .quick-view-grid {
     grid-template-columns: 1fr;
@@ -3185,6 +3244,8 @@ select:focus-visible {
   }
   .checkout-body {
     grid-template-columns: 1fr;
+    max-height: none;
+    overflow: visible;
   }
   .checkout-header,
   .checkout-form,
@@ -3198,14 +3259,14 @@ select:focus-visible {
     grid-column: span 1;
   }
   .chat-panel {
-    bottom: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
     right: 16px;
     width: calc(100vw - 32px);
-    height: calc(100vh - 32px);
+    height: calc(100dvh - 32px - env(safe-area-inset-bottom));
     max-height: 600px;
   }
   .chat-fab {
-    bottom: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
     right: 16px;
   }
   .toast {
@@ -3225,6 +3286,35 @@ select:focus-visible {
   }
   .section-title {
     font-size: 2rem;
+  }
+  .brand-name {
+    font-size: 14px;
+    letter-spacing: 0.16em;
+  }
+  .cart-row {
+    gap: 12px;
+  }
+  .cart-row-img {
+    width: 68px;
+    height: 84px;
+  }
+  .cart-row-controls {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .coupon-row {
+    flex-wrap: wrap;
+  }
+  .coupon-row .input-field {
+    flex: 1 1 calc(100% - 32px);
+  }
+  .coupon-apply-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .quick-actions {
+    flex-wrap: wrap;
   }
 }
 

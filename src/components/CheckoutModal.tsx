@@ -14,7 +14,6 @@ type CheckoutModalProps = {
   couponCode: string;
   t: TranslationDict;
   onClose: () => void;
-  onClearCart: () => void;
 };
 
 const initialForm = {
@@ -37,7 +36,6 @@ export function CheckoutModal({
   couponCode,
   t,
   onClose,
-  onClearCart,
 }: CheckoutModalProps) {
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);

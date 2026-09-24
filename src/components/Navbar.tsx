@@ -79,8 +79,9 @@ export function Navbar({
   const currentLangMeta = SUPPORTED_LANGUAGES.find((l) => l.code === language) || SUPPORTED_LANGUAGES[0];
 
   return (
-    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
-      <nav className="shell nav-row" aria-label="Main navigation">
+    <>
+      <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+        <nav className="shell nav-row" aria-label="Main navigation">
         <button className="brand-lockup" onClick={() => go('home')} aria-label={`${SITE_CONFIG.brand} home`}>
           <img src="/assets/logo/Ayurique.png" alt={`${SITE_CONFIG.brand} logo`} className="brand-mark" />
           <span className="brand-name">AYURIQUE</span>
@@ -130,7 +131,7 @@ export function Navbar({
 
           {/* Theme Toggle */}
           <button
-            className="icon-button"
+            className="icon-button nav-theme-btn"
             onClick={onToggleTheme}
             aria-label={theme === 'dark' ? t.nav.lightMode : t.nav.darkMode}
             title={theme === 'dark' ? t.nav.lightMode : t.nav.darkMode}
@@ -145,7 +146,7 @@ export function Navbar({
 
           {/* Wishlist */}
           <button
-            className="icon-button nav-wishlist-btn"
+            className="icon-button nav-wishlist-btn nav-wishlist-desktop"
             aria-label={`${t.nav.wishlist}, ${wishlistCount} items`}
             onClick={onOpenWishlist}
             title={t.nav.wishlist}
@@ -179,7 +180,8 @@ export function Navbar({
             <Menu size={22} strokeWidth={1.75} />
           </button>
         </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Mobile menu drawer */}
       {menuOpen && (
@@ -253,6 +255,6 @@ export function Navbar({
           <div className="mobile-menu-foot">{SITE_CONFIG.tagline}</div>
         </div>
       )}
-    </header>
+    </>
   );
 }
