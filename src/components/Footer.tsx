@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Instagram, Mail, Phone, ChevronDown, MessageCircle, MapPin } from 'lucide-react';
+import { Instagram, Mail, Phone, ChevronDown, MessageCircle, MapPin, Download } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/config';
 import type { TranslationDict } from '@/data/i18n';
 import type { Category } from '@/data/products';
@@ -68,6 +68,18 @@ export function Footer({ t, onNavigate, onCategorySelect }: FooterProps) {
                 <Phone size={16} />
               </a>
             </div>
+            <a
+              href="/downloads/Ayurique.apk"
+              download="Ayurique.apk"
+              className="footer-app-download"
+              aria-label="Download the Ayurique Android app"
+            >
+              <Download size={15} aria-hidden="true" />
+              <span>
+                <strong>Ayurique for Android</strong>
+                <small>APK · 31.8 MB</small>
+              </span>
+            </a>
           </div>
 
           <div className="footer-columns">
